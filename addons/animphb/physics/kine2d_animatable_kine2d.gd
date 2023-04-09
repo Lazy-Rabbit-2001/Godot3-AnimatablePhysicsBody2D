@@ -46,30 +46,29 @@ func move_and_slither(delta: float) -> KinematicCollision2D:
 	# Move and slide with snap
 	velocity = move_and_slide_with_snap(velocity, -up_direction * (slope_snap_length if _snap else 0.0), up_direction, stop_on_slope, 4, max_slope)
 	if constant_speed && is_on_floor() && stepify(velocity.dot(up_direction), 0.001) != 0:
-		velocity = get_floor_velocity()
+		velocity = velocity.move_toward(_velocity, _velocity.length() * tan(get_floor_angle(up_direction)))
 	
 	# Slide on AnimatableBody2D
-	var on_animatable: bool
 	var physics_fps: float = engine.iterations_per_second
-	var target_vel: Vector2
-	for i in get_slide_count():
-		var slide: KinematicCollision2D = get_slide_collision(i)
-		if slide && slide.collider is AnimatableBody2D && slide.get_angle(up_direction) < max_slope:
-			on_animatable = true
-			var animbody: AnimatableBody2D = slide.collider as AnimatableBody2D
-			target_vel += animbody.constant_linear_velocity - slide.normal.tangent() * deg2rad(animbody.constant_angular_velocity) * slide.position.distance_to(animbody.global_position) * physics_fps
-	if on_animatable:
-		velocity = velocity.move_toward(target_vel, target_vel.length())
+	var slide: KinematicCollision2D = get_last_slide_collision()
+	if slide && slide.collider is AnimatableBody2D && slide.get_angle(up_direction) < max_slope:
+		var animbody: AnimatableBody2D = slide.collider as AnimatableBody2D
+		var target_velocity: Vector2 = animbody.constant_linear_velocity - slide.normal.tangent() * deg2rad(animbody.constant_angular_velocity) * slide.position.distance_to(animbody.global_position) * physics_fps
+		velocity += target_velocity - _velocity.slide(get_floor_normal())
+		disnap(velocity)
 	
 	# Previous velocity
 	_velocity = velocity
 	
-	return get_last_slide_collision()
+	return slide
 
 
 # Forced disnap
-func disnap() -> void:
-	_disnap = true
+func disnap(vel: Vector2 = Vector2.INF) -> void:
+	if vel == Vector2.INF:
+		_disnap = true
+	elif vel.dot(up_direction) > 0:
+		_disnap = true
 
 
 # Setters & getters

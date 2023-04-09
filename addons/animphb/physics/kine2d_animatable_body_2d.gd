@@ -9,7 +9,12 @@ const SYNC_TO_PHYSICS: String = "motion/sync_to_physics"
 
 export var constant_linear_velocity: Vector2
 export var constant_angular_velocity: float
+export var physics_material_override: PhysicsMaterial
 export var constant_rotation_velocity: float
+
+var global_travel: Vector2
+
+onready var _gpos: Vector2 = global_position
 
 
 func _physics_process(delta: float) -> void:
@@ -20,3 +25,7 @@ func _physics_process(delta: float) -> void:
 	# Self rotation, which will AFFECT the calculation of constant_angular_velocity
 	if constant_rotation_velocity != 0:
 		rotate(deg2rad(constant_rotation_velocity))
+	
+	global_travel = (global_position - _gpos) / delta
+	_gpos = global_position
+	
