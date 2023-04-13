@@ -5,11 +5,11 @@ extends KinematicBody2D
 ##
 ## NOTE: To make the reaction perfectly work, you need to call move_and_slither()
 ## instead of move_and_slide() or move_and_slide_with_snap()
+## NOTE2: No constant_speed property since it's quite hard to implement back to Godot 3
 
 export var collision_enabled: bool = true
 export var up_direction: Vector2 = Vector2.UP setget set_up_direction, get_up_direction
 export var stop_on_slope: bool = true
-export var constant_speed: bool = true
 export(float, 0, 96, 0.01) var slope_snap_length: float = 4
 export var floor_max_angle: float = 45
 export var elastic_slide: bool
@@ -45,8 +45,6 @@ func move_and_slither(delta: float) -> KinematicCollision2D:
 	
 	# Move and slide with snap
 	velocity = move_and_slide_with_snap(velocity, -up_direction * (slope_snap_length if _snap else 0.0), up_direction, stop_on_slope, 4, max_slope)
-	if constant_speed && is_on_floor() && stepify(velocity.dot(up_direction), 0.001) != 0:
-		velocity = velocity.move_toward(_velocity, _velocity.length() * tan(get_floor_angle(up_direction)))
 	
 	# Slide on AnimatableBody2D
 	var physics_fps: float = engine.iterations_per_second

@@ -33,6 +33,7 @@ func _integrate_forces(state: Physics2DDirectBodyState) -> void:
 				# the body would be driven to fall in percentage of chances
 				var target_lvel: Vector2 = j.constant_linear_velocity - j.constant_angular_velocity * state.get_contact_collider_position(i).direction_to(global_position).tangent() * physics_fps
 				state.linear_velocity += target_lvel - _linear_velocity + j.global_travel
+				# Physics material
 				if j.physics_material_override:
 					physics_material_override = j.physics_material_override
 	# Previous linear velocity
