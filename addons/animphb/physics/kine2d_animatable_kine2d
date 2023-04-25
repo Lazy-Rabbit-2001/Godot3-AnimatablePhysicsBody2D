@@ -1,7 +1,7 @@
 class_name AnimatableKinematic2D, "res://addons/animphb/physics/kine2d_animatable_kine2d.png"
 extends KinematicBody2D
 
-## Advanced KinematicBody2D that is able to interact with AnimatableBody2D
+## KinematicBody2D that is able to interact with AnimatableBody2D
 ##
 ## NOTE: To make the reaction perfectly work, you need to call move_and_slither()
 ## instead of move_and_slide() or move_and_slide_with_snap()
@@ -12,13 +12,13 @@ export var up_direction: Vector2 = Vector2.UP setget set_up_direction, get_up_di
 export var stop_on_slope: bool = true
 export(float, 0, 96, 0.01) var slope_snap_length: float = 4
 export var floor_max_angle: float = 45
+export var floor_constant_speed: bool = true
 
 var engine: = Engine
 
 var velocity: Vector2
 
 var _velocity: Vector2 setget set_previous_velocity, get_previous_velocity
-var _slope_velocity: Vector2
 var _snap: bool
 var _disnap: bool
 
