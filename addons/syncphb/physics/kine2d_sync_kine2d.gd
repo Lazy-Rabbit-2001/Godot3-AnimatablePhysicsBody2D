@@ -1,4 +1,4 @@
-class_name AnimatableKinematic2D, "res://addons/animphb/physics/kine2d_animatable_kine2d.png"
+class_name SyncKinematicBody2D, "res://addons/animphb/physics/kine2d_sync_kine2d.png"
 extends KinematicBody2D
 
 ## Advanced KinematicBody2D that is able to interact with AnimatableBody2D
@@ -11,7 +11,7 @@ export var collision_enabled: bool = true
 export var up_direction: Vector2 = Vector2.UP setget set_up_direction, get_up_direction
 export var stop_on_slope: bool = true
 export(float, 0, 96, 0.01) var slope_snap_length: float = 4
-export var floor_max_angle: float = 45
+export var floor_max_angle: float = 46
 
 var engine: = Engine
 
@@ -49,16 +49,16 @@ func move_and_slither(delta: float) -> KinematicCollision2D:
 	# Move and slide with snap
 	velocity = move_and_slide_with_snap(velocity, -up_direction * (slope_snap_length if _snap else 0.0), up_direction, stop_on_slope, 4, max_slope)
 	
-	# Slide on AnimatableBody2D
-	var physics_fps: float = engine.iterations_per_second
-	var slide: KinematicCollision2D = get_last_slide_collision()
-	if slide && slide.collider is AnimatableBody2D && slide.get_angle(up_direction) < max_slope:
-		var animbody: AnimatableBody2D = slide.collider as AnimatableBody2D
-		var target_velocity: Vector2 = animbody.constant_linear_velocity - slide.normal.tangent() * deg2rad(animbody.constant_angular_velocity) * slide.position.distance_to(animbody.global_position) * physics_fps
-		velocity += target_velocity - _velocity.slide(get_floor_normal())
-		disnap(velocity)
+#	# Slide on AnimatableBody2D
+#	var physics_fps: float = engine.iterations_per_second
+#	var slide: KinematicCollision2D = get_last_slide_collision()
+#	if slide && slide.collider is AnimatableBody2D && slide.get_angle(up_direction) < max_slope:
+#		var animbody: AnimatableBody2D = slide.collider as AnimatableBody2D
+#		var target_velocity: Vector2 = animbody.constant_linear_velocity - slide.normal.tangent() * deg2rad(animbody.constant_angular_velocity) * slide.position.distance_to(animbody.global_position) * physics_fps
+#		velocity += target_velocity - _velocity.slide(get_floor_normal())
+#		disnap(velocity)
 	
-	return slide
+	return get_last_slide_collision()
 
 
 # Forced disnap

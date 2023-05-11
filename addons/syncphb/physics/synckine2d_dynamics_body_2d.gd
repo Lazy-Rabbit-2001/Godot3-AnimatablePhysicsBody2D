@@ -1,5 +1,5 @@
-class_name DynamicsBody2D, "./animkine2d_dynamics_body_2d.png"
-extends AnimatableKinematic2D
+class_name DynamicsBody2D, "./synckine2d_dynamics_body_2d.png"
+extends SyncKinematicBody2D
 
 ## Body that allows you to get fast access to gravity and movement
 ##
@@ -15,11 +15,12 @@ export var gravity_acceleration: float
 export var gravity_max_falling_speed: float
 export var slide_enabled: bool
 
+var motion_lock: bool # If true, only velocity will be in application
+
 var _motion: Vector2 # Motion before calling move_with_motion()
 
 
 func move_with_motion(delta: float) -> KinematicCollision2D:
-	var t: float = Time.get_ticks_usec()
 	# Up direction
 	var up: Vector2 = up_direction
 	up_direction = up_direction.rotated(global_rotation)
@@ -37,7 +38,10 @@ func move_with_motion(delta: float) -> KinematicCollision2D:
 		motion.y = clamp(motion.y, 0, abs(motion.x) * 0.9)
 	
 	# Motion
-	velocity = motion.rotated(global_rotation)
+	if motion_lock:
+		motion_lock = false
+	else:
+		velocity = motion.rotated(global_rotation)
 	var result: KinematicCollision2D = move_and_slither(delta)
 	motion = velocity.rotated(-global_rotation)
 	
@@ -55,7 +59,6 @@ func move_with_motion(delta: float) -> KinematicCollision2D:
 		emit_signal("collided_ceiling")
 	if is_on_floor():
 		emit_signal("collided_floor")
-	print(Time.get_ticks_usec() - t)
 	
 	# Returns
 	return result

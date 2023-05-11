@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/animkine2d_dynamics_body_2d.png-845b0a9e13d68d0698b4c4bba8c8d8f7.stex"
+path="res://.import/kine2d_sync_kine2d.png-b690a2d2c2a2eeb6282b7f6c6870580a.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/animphb/physics/animkine2d_dynamics_body_2d.png"
-dest_files=[ "res://.import/animkine2d_dynamics_body_2d.png-845b0a9e13d68d0698b4c4bba8c8d8f7.stex" ]
+source_file="res://addons/syncphb/physics/kine2d_sync_kine2d.png"
+dest_files=[ "res://.import/kine2d_sync_kine2d.png-b690a2d2c2a2eeb6282b7f6c6870580a.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=true
+flags/filter=false
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2
