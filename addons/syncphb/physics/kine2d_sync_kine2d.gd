@@ -1,4 +1,4 @@
-class_name SyncKinematicBody2D, "res://addons/animphb/physics/kine2d_sync_kine2d.png"
+class_name SyncKinematicBody2D, "./kine2d_sync_kine2d.png"
 extends KinematicBody2D
 
 ## Advanced KinematicBody2D that is able to interact with AnimatableBody2D

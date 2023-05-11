@@ -1,4 +1,4 @@
-class_name SyncBody2D, "res://addons/animphb/physics/kine2d_sync_body_2d.png"
+class_name SyncBody2D, "./kine2d_sync_body_2d.png"
 extends KinematicBody2D
 
 ## Class that allows you to make platform or moving blocks easily
