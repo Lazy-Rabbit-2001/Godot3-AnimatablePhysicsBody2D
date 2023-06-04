@@ -34,7 +34,7 @@ func move_with_motion(delta: float) -> KinematicCollision2D:
 		motion.y = gravity_max_falling_speed
 	
 	# Low-speed slope-down fixer (only works for motion_global == false)
-	if is_on_floor() && !slide_enabled && motion.y > 0:
+	if is_on_floor() && !slide_enabled && motion.y > 0 && !is_equal_approx(get_floor_angle(up_direction), 0):
 		motion.y = clamp(motion.y, 0, abs(motion.x) * 0.9)
 	
 	# Motion
@@ -96,6 +96,7 @@ func turn_y() -> void:
 
 #= Jump
 func jump(jumping_speed: float) -> void:
+	disnap()
 	motion.y = -abs(jumping_speed)
 
 
